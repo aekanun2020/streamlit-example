@@ -39,8 +39,9 @@ if st.button('สอบถามครู'):
         # ส่งข้อความไปยัง API
         result = call_api(text_input)
 
-        # แสดงผลลัพธ์ในรูปแบบ JSON
-        with st.expander("API Response:"):
-            st.json(json.loads(result))  # หรือ st.write ถ้าไม่ต้องการใช้ JSON
+        # แสดงผลลัพธ์โดยตรง
+        st.json(json.loads(result))  # แสดงผลลัพธ์ในรูปแบบ JSON
+    except Exception as e:
+        st.error(f"An error occurred: {e}")
     except Exception as e:
         st.error(f"An error occurred: {e}")
