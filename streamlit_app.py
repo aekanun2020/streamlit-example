@@ -35,8 +35,9 @@ if st.button('สอบถามครู'):
     try:
         json_data = json.loads(data_input)
         result = call_api(json_data)
-        st.markdown("API Response:")
-        st.markdown(result, unsafe_allow_html=True)  # ใช้ HTML
+        st.text("API Response:")
+        st.code(result, language='json')  # ใช้ st.code เพื่อแสดงผลเป็น raw text
     except json.JSONDecodeError:
         st.error("Invalid JSON input. Please enter valid JSON data.")
+
 
