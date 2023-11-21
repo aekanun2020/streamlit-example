@@ -35,9 +35,9 @@ st.title('สวัสดีครับ ผมครูเอ้เองคร
 # รับข้อมูลเป็นข้อความธรรมดา
 text_input = st.text_area("ท่านอยากรู้อะไรในเรื่องที่ครูได้บรรยายไปบ้างครับ")
 if st.button('สอบถามครู'):
-    word_count = len(text_input.split())
-    if word_count > 100:
-        st.warning("กรุณาจำกัดคำถามของท่านให้อยู่ภายใน 100 คำ")
+    char_count = len(text_input)
+    if char_count > 100:
+        st.warning("กรุณาจำกัดคำถามของท่านให้อยู่ภายใน 100 อักขระ")
     else:
         try:
             # ส่งข้อความไปยัง API
