@@ -14,7 +14,7 @@ def call_api(data):
     body = str.encode(json.dumps(data))
     url = 'https://aekanun-deploy-21dec2023.eastus.inference.ml.azure.com/score'
     api_key = '0QuDIDpd0MmgJuPSbsyAQz2vV4RwvivB'
-    headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aekanun-deploy-21dec2023-1' }
+    headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key)}
     req = urllib.request.Request(url, body, headers)
 
     try:
