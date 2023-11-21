@@ -22,13 +22,17 @@ def call_api(data):
         result = response.read()
         return result
     except urllib.error.HTTPError as error:
-        return "Error: " + str(error)
+        return f"Error: {error}"
 
 # Streamlit UI
 st.title('API Call Interface')
 
-data_input = st.text_area("Enter your data here")
+data_input = st.text_area("Enter your data here in JSON format")
 if st.button('Call API'):
-    result = call_api(json.loads(data_input))
-    st.text("API Response:")
-    st.write(result)
+    try:
+        json_data = json.loads(data_input)
+        result = call_api(json_data)
+        st.text("API Response:")
+        st.write(result)
+    except json.JSONDecodeError:
+        st.error("Invalid JSON input. Please enter valid JSON data.")
