@@ -25,10 +25,10 @@ def call_api(data):
         return f"Error: {error}"
 
 # Streamlit UI
-st.title('API Call Interface')
+st.title('สวัสดีครับ ผมครูเอ้เอง ครับ มาในเวอร์ชั่นของ AI ท่านอยากรู้อะไรในเรื่องที่ครูได้บรรยายไปบ้างครับ')
 
 data_input = st.text_area("Enter your data here in JSON format")
-if st.button('Call API'):
+if st.button('สอบถามครู'):
     try:
         json_data = json.loads(data_input)
         result = call_api(json_data)
