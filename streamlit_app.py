@@ -35,18 +35,22 @@ st.title('สวัสดีครับ ผมครูเอ้เองคร
 # รับข้อมูลเป็นข้อความธรรมดา
 text_input = st.text_area("ท่านอยากรู้อะไรในเรื่องที่ครูได้บรรยายไปบ้างครับ")
 if st.button('สอบถามครู'):
-    try:
-        # ส่งข้อความไปยัง API
-        result = call_api(text_input)
+    word_count = len(text_input.split())
+    if word_count > 100:
+        st.warning("กรุณาจำกัดคำถามของท่านให้อยู่ภายใน 100 คำ")
+    else:
+        try:
+            # ส่งข้อความไปยัง API
+            result = call_api(text_input)
 
-        # แปลงผลลัพธ์จาก JSON เป็น Python object
-        result_data = json.loads(result)
+            # แปลงผลลัพธ์จาก JSON เป็น Python object
+            result_data = json.loads(result)
 
-        # ตรวจสอบและแสดงผลลัพธ์
-        if 'output' in result_data:
-            st.write("คำตอบ:", result_data['output'])
-        else:
-            st.write("ไม่พบข้อมูลในการตอบสนอง")
+            # ตรวจสอบและแสดงผลลัพธ์
+            if 'output' in result_data:
+                st.write("คำตอบ:", result_data['output'])
+            else:
+                st.write("ไม่พบข้อมูลในการตอบสนอง")
 
-    except Exception as e:
-        st.error(f"An error occurred: {e}")
+        except Exception as e:
+            st.error(f"An error occurred: {e}")
