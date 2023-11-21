@@ -39,7 +39,14 @@ if st.button('สอบถามครู'):
         # ส่งข้อความไปยัง API
         result = call_api(text_input)
 
-        # แสดงผลลัพธ์โดยตรง
-        st.json(json.loads(result))  # แสดงผลลัพธ์ในรูปแบบ JSON
+        # แปลงผลลัพธ์จาก JSON เป็น Python object
+        result_data = json.loads(result)
+
+        # ตรวจสอบและแสดงผลลัพธ์
+        if 'output' in result_data:
+            st.write("คำตอบ:", result_data['output'])
+        else:
+            st.write("ไม่พบข้อมูลในการตอบสนอง")
+
     except Exception as e:
         st.error(f"An error occurred: {e}")
