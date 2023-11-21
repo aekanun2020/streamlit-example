@@ -19,7 +19,8 @@ def call_api(data):
 
     try:
         response = urllib.request.urlopen(req)
-        result = response.read()
+        # ใช้ .decode('utf-8') เพื่อแปลงจาก bytes เป็น string
+        result = response.read().decode('utf-8')
         return result
     except urllib.error.HTTPError as error:
         return f"Error: {error}"
