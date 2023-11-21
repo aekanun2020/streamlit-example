@@ -29,11 +29,14 @@ def call_api(data):
 st.title('สวัสดีครับ ผมครูเอ้เอง ครับ มาในเวอร์ชั่นของ AI')
 
 data_input = st.text_area("ท่านอยากรู้อะไรในเรื่องที่ครูได้บรรยายไปบ้างครับ")
+# ส่วนอื่นๆ ของโค้ดเหมือนเดิม...
+
 if st.button('สอบถามครู'):
     try:
         json_data = json.loads(data_input)
         result = call_api(json_data)
-        st.text("API Response:")
-        st.write(result)
+        st.markdown("API Response:")
+        st.markdown(result, unsafe_allow_html=True)  # ใช้ HTML
     except json.JSONDecodeError:
         st.error("Invalid JSON input. Please enter valid JSON data.")
+
