@@ -35,9 +35,17 @@ if st.button('สอบถามครู'):
     try:
         json_data = json.loads(data_input)
         result = call_api(json_data)
+
+        # แปลงจาก JSON string เป็น Python object
+        result_obj = json.loads(result)
+
+        # แปลงกลับเป็น string พร้อมข้อความ Unicode
+        formatted_result = json.dumps(result_obj, indent=2, ensure_ascii=False)
+
         st.text("API Response:")
-        st.code(result, language='json')  # ใช้ st.code เพื่อแสดงผลเป็น raw text
+        st.write(formatted_result)  # ใช้ st.write หรือ st.text
     except json.JSONDecodeError:
         st.error("Invalid JSON input. Please enter valid JSON data.")
+
 
 
