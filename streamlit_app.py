@@ -29,8 +29,6 @@ def call_api(data):
 st.title('สวัสดีครับ ผมครูเอ้เอง ครับ มาในเวอร์ชั่นของ AI')
 
 data_input = st.text_area("ท่านอยากรู้อะไรในเรื่องที่ครูได้บรรยายไปบ้างครับ")
-# ส่วนอื่นๆ ของโค้ดเหมือนเดิม...
-
 if st.button('สอบถามครู'):
     try:
         json_data = json.loads(data_input)
@@ -39,13 +37,13 @@ if st.button('สอบถามครู'):
         # แปลงจาก JSON string เป็น Python object
         result_obj = json.loads(result)
 
-        # แปลงกลับเป็น string พร้อมข้อความ Unicode
-        formatted_result = json.dumps(result_obj, indent=2, ensure_ascii=False)
-
-        st.text("API Response:")
-        st.write(formatted_result)  # ใช้ st.write หรือ st.text
+        # ใช้ Expander สำหรับแสดงผลข้อมูล
+        with st.expander("API Response:"):
+            st.json(result_obj)  # ใช้ st.json สำหรับแสดงผล JSON ที่จัดรูปแบบแล้ว
     except json.JSONDecodeError:
         st.error("Invalid JSON input. Please enter valid JSON data.")
+
+
 
 
 
