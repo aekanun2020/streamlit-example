@@ -30,7 +30,7 @@ def call_api(text):
         return f"Error: {error}"
 
 # Streamlit UI
-st.title('สวัสดีครับ ผมครูเอ้เอง ครับ มาในเวอร์ชั่นของ AI')
+st.title('สวัสดีครับ ผมครูเอ้เองครับ มาในเวอร์ชั่นของ Generative AI')
 
 # รับข้อมูลเป็นข้อความธรรมดา
 text_input = st.text_area("ท่านอยากรู้อะไรในเรื่องที่ครูได้บรรยายไปบ้างครับ")
@@ -41,7 +41,5 @@ if st.button('สอบถามครู'):
 
         # แสดงผลลัพธ์โดยตรง
         st.json(json.loads(result))  # แสดงผลลัพธ์ในรูปแบบ JSON
-    except Exception as e:
-        st.error(f"An error occurred: {e}")
     except Exception as e:
         st.error(f"An error occurred: {e}")
