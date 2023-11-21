@@ -1,40 +1,44 @@
-import altair as alt
-import numpy as np
-import pandas as pd
-import streamlit as st
+import urllib.request
+import json
+import os
+import ssl
 
-"""
-# Welcome to Streamlit!
+def allowSelfSignedHttps(allowed):
+    # bypass the server certificate verification on client side
+    if allowed and not os.environ.get('PYTHONHTTPSVERIFY', '') and getattr(ssl, '_create_unverified_context', None):
+        ssl._create_default_https_context = ssl._create_unverified_context
 
-Edit `/streamlit_app.py` to customize this app to your heart's desire :heart:.
-If you have any questions, checkout our [documentation](https://docs.streamlit.io) and [community
-forums](https://discuss.streamlit.io).
+allowSelfSignedHttps(True) # this line is needed if you use self-signed certificate in your scoring service.
 
-In the meantime, below is an example of what you can do with just a few lines of code:
-"""
+# Request data goes here
+# The example below assumes JSON formatting which may be updated
+# depending on the format your endpoint expects.
+# More information can be found here:
+# https://docs.microsoft.com/azure/machine-learning/how-to-deploy-advanced-entry-script
+data = {}
 
-num_points = st.slider("Number of points in spiral", 1, 10000, 1100)
-num_turns = st.slider("Number of turns in spiral", 1, 300, 31)
+body = str.encode(json.dumps(data))
 
-indices = np.linspace(0, 1, num_points)
-theta = 2 * np.pi * num_turns * indices
-radius = indices
+url = 'https://aekanun-deploy-21dec2023.eastus.inference.ml.azure.com/score'
+# Replace this with the primary/secondary key or AMLToken for the endpoint
+api_key = '0QuDIDpd0MmgJuPSbsyAQz2vV4RwvivB'
+if not api_key:
+    raise Exception("A key should be provided to invoke the endpoint")
 
-x = radius * np.cos(theta)
-y = radius * np.sin(theta)
+# The azureml-model-deployment header will force the request to go to a specific deployment.
+# Remove this header to have the request observe the endpoint traffic rules
+headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'aekanun-deploy-21dec2023-1' }
 
-df = pd.DataFrame({
-    "x": x,
-    "y": y,
-    "idx": indices,
-    "rand": np.random.randn(num_points),
-})
+req = urllib.request.Request(url, body, headers)
 
-st.altair_chart(alt.Chart(df, height=700, width=700)
-    .mark_point(filled=True)
-    .encode(
-        x=alt.X("x", axis=None),
-        y=alt.Y("y", axis=None),
-        color=alt.Color("idx", legend=None, scale=alt.Scale()),
-        size=alt.Size("rand", legend=None, scale=alt.Scale(range=[1, 150])),
-    ))
+try:
+    response = urllib.request.urlopen(req)
+
+    result = response.read()
+    print(result)
+except urllib.error.HTTPError as error:
+    print("The request failed with status code: " + str(error.code))
+
+    # Print the headers - they include the requert ID and the timestamp, which are useful for debugging the failure
+    print(error.info())
+    print(error.read().decode("utf8", 'ignore'))
