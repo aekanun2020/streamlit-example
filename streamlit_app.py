@@ -16,8 +16,8 @@ def call_api(text):
     data = {"question": text}
     body = str.encode(json.dumps(data))
 
-    url = 'https://studenloan-endpoint.eastus.inference.ml.azure.com/score'
-    api_key = '7g8VhXC9rRoSJ2m1AtIIOwJ5dKMYtu3g'
+    url = 'https://demo-rag-workspace-kppjs.eastus2.inference.ml.azure.com/score'
+    api_key = '9nfssaAgUSCVe9U9WSbEJ1cuwhoy6i2E'
     headers = {'Content-Type': 'application/json', 'Authorization': 'Bearer ' + api_key}
     req = urllib.request.Request(url, body, headers)
 
